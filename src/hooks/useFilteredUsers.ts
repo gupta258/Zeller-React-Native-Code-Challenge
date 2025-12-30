@@ -8,15 +8,10 @@ interface UseFilteredUsersProps {
   role?: UserRole;
 }
 
-/**
- * Custom hook to filter users by search query and role
- * Optimized with memoization and helper functions
- */
 export const useFilteredUsers = ({ users, searchQuery, role }: UseFilteredUsersProps) => {
   const filteredUsers = useMemo(() => {
     let result = users;
 
-    // Filter by search query (case-insensitive, normalized)
     const normalizedQuery = normalizeString(searchQuery).toLowerCase();
     if (normalizedQuery) {
       result = result.filter((user) => {
@@ -25,7 +20,6 @@ export const useFilteredUsers = ({ users, searchQuery, role }: UseFilteredUsersP
       });
     }
 
-    // Filter by role
     if (role && role !== 'All') {
       result = result.filter((user) => user.role === role);
     }

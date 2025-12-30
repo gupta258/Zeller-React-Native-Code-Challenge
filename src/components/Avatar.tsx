@@ -11,9 +11,6 @@ interface AvatarProps {
   className?: string;
 }
 
-/**
- * Reusable Avatar component that displays user initials in a colored circle
- */
 export const Avatar: React.FC<AvatarProps> = React.memo(({ 
   name, 
   role = 'Admin', 

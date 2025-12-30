@@ -1,9 +1,4 @@
-/**
- * Zeller React Native Code Challenge
- * User Management App with GraphQL API and Local Database
- *
- * @format
- */
+// @format
 
 import './global.css';
 import React from 'react';
@@ -19,9 +14,7 @@ import { NAVIGATION_HEADER_HEIGHT } from './src/constants';
 
 function ToastWrapper() {
   const insets = useSafeAreaInsets();
-  // Calculate offset: status bar + navigation header
   const topOffset = insets.top + (Platform.OS === 'ios' ? NAVIGATION_HEADER_HEIGHT.IOS : NAVIGATION_HEADER_HEIGHT.ANDROID);
-  
   return <Toast topOffset={topOffset} />;
 }
 

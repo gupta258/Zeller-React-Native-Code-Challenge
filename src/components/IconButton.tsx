@@ -11,9 +11,6 @@ interface IconButtonProps extends Omit<TouchableOpacityProps, 'className'> {
   className?: string;
 }
 
-/**
- * Reusable IconButton component for icon-only buttons
- */
 export const IconButton: React.FC<IconButtonProps> = React.memo(({
   iconName,
   size = 24,

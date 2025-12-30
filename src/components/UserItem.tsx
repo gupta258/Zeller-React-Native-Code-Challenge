@@ -21,7 +21,6 @@ export const UserItem: React.FC<UserItemProps> = React.memo(({ user, onPress, on
 
   useEffect(() => {
     if (!isDeleting) {
-      // Initial entrance animation
       Animated.parallel([
         Animated.timing(fadeAnim, {
           toValue: 1,
@@ -42,7 +41,6 @@ export const UserItem: React.FC<UserItemProps> = React.memo(({ user, onPress, on
 
   useEffect(() => {
     if (isDeleting) {
-      // Delete animation: fade out, slide right, and scale down
       Animated.parallel([
         Animated.timing(fadeAnim, {
           toValue: 0,
@@ -119,7 +117,6 @@ export const UserItem: React.FC<UserItemProps> = React.memo(({ user, onPress, on
     </Animated.View>
   );
 }, (prevProps, nextProps) => {
-  // Custom comparison for better performance
   return (
     prevProps.user.id === nextProps.user.id &&
     prevProps.user.name === nextProps.user.name &&

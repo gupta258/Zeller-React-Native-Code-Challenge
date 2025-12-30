@@ -30,7 +30,6 @@ const UserFormScreen: React.FC = () => {
   const user = route.params?.user;
   const isEditMode = !!user;
 
-  // Create validation rules with duplicate name check using reusable utility
   const nameRules = useMemo(() => {
     const baseRules = nameValidationRules<UserFormData>();
     return createNameValidationWithDuplicateCheck<UserFormData, ZellerCustomer>(
@@ -46,7 +45,7 @@ const UserFormScreen: React.FC = () => {
       email: user?.email || '',
       role: user?.role || 'Admin',
     },
-    mode: 'onChange', // Validate on change for real-time feedback
+    mode: 'onChange',
   });
 
   const {
@@ -65,7 +64,6 @@ const UserFormScreen: React.FC = () => {
 
       const success = await handleSave(customer, isEditMode);
       if (success) {
-        // Navigate back after a delay to ensure toast is visible
         setTimeout(() => {
           navigation.goBack();
         }, 800);

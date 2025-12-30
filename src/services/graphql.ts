@@ -30,8 +30,6 @@ export const fetchZellerCustomers = async (): Promise<ZellerCustomer[]> => {
     );
     
     const rawCustomers = data.listZellerCustomers.items || [];
-    
-    // Normalize role format using utility function
     const customers: ZellerCustomer[] = rawCustomers.map(customer => ({
       ...customer,
       role: normalizeRole(customer.role),

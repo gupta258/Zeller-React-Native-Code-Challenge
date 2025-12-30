@@ -1,28 +1,11 @@
-/**
- * General utility helper functions
- */
-
-/**
- * Trims and normalizes a string
- */
 export const normalizeString = (str: string | undefined | null): string => {
   return str?.trim() || '';
 };
 
-/**
- * Case-insensitive string comparison
- */
 export const compareStrings = (str1: string, str2: string): boolean => {
   return normalizeString(str1).toLowerCase() === normalizeString(str2).toLowerCase();
 };
 
-/**
- * Debounce function for search/input
- * Returns a debounced version of the function that delays execution
- * @param func - Function to debounce
- * @param wait - Delay in milliseconds
- * @returns Debounced function with cleanup method
- */
 export const debounce = <T extends (...args: any[]) => any>(
   func: T,
   wait: number
@@ -34,7 +17,6 @@ export const debounce = <T extends (...args: any[]) => any>(
     timeout = setTimeout(() => func(...args), wait);
   };
   
-  // Add cleanup method to prevent memory leaks
   debounced.cancel = () => {
     if (timeout) {
       clearTimeout(timeout);
@@ -45,9 +27,6 @@ export const debounce = <T extends (...args: any[]) => any>(
   return debounced;
 };
 
-/**
- * Format initials from a name
- */
 export const getInitials = (name: string, maxLength: number = 2): string => {
   return name
     .split(' ')

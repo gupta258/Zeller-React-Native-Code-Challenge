@@ -10,9 +10,6 @@ interface BadgeProps {
   className?: string;
 }
 
-/**
- * Reusable Badge component for displaying labels/tags
- */
 export const Badge: React.FC<BadgeProps> = React.memo(({
   label,
   variant = 'primary',
@@ -46,9 +43,6 @@ export const Badge: React.FC<BadgeProps> = React.memo(({
   );
 });
 
-/**
- * RoleBadge - Specialized badge for user roles
- */
 interface RoleBadgeProps {
   role: UserRole;
   size?: 'sm' | 'md';

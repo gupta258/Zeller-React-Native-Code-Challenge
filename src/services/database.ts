@@ -16,7 +16,6 @@ export const initDatabase = async (): Promise<ReturnType<typeof open>> => {
       location: 'default',
     });
 
-    // Create table if it doesn't exist
     db.execute(`
       CREATE TABLE IF NOT EXISTS customers (
         id TEXT PRIMARY KEY,
@@ -46,13 +45,10 @@ export const getAllCustomers = async (): Promise<ZellerCustomer[]> => {
   try {
     const database = await getDatabase();
     const result = database.execute('SELECT * FROM customers ORDER BY name ASC');
-    
     const customers: ZellerCustomer[] = [];
     
-    // react-native-quick-sqlite returns rows with _array property
     if (result.rows && result.rows.length > 0) {
       const rowsArray = result.rows._array;
-      
       if (rowsArray && rowsArray.length > 0) {
         for (let i = 0; i < rowsArray.length; i++) {
           const row = rowsArray[i];
@@ -130,7 +126,6 @@ export const getCustomerByName = async (name: string, excludeId?: string): Promi
 
 export const insertCustomer = async (customer: ZellerCustomer): Promise<void> => {
   try {
-    // Check for duplicate name
     const existingCustomer = await getCustomerByName(customer.name);
     if (existingCustomer) {
       throw new Error(`A customer with the name "${customer.name}" already exists`);
@@ -149,7 +144,6 @@ export const insertCustomer = async (customer: ZellerCustomer): Promise<void> =>
 
 export const updateCustomer = async (customer: ZellerCustomer): Promise<void> => {
   try {
-    // Check for duplicate name (excluding current customer)
     const existingCustomer = await getCustomerByName(customer.name, customer.id);
     if (existingCustomer) {
       throw new Error(`A customer with the name "${customer.name}" already exists`);
@@ -180,27 +174,23 @@ export const syncCustomersFromAPI = async (
   customers: ZellerCustomer[]
 ): Promise<void> => {
   const database = await getDatabase();
-  
-  // Clear existing data and insert new
   database.execute('DELETE FROM customers');
   
-  // Deduplicate by name (case-insensitive) before inserting
+  // Remove duplicates by name
   const seenNames = new Set<string>();
   const uniqueCustomers = customers.filter((customer) => {
     const normalizedName = customer.name.trim().toLowerCase();
     if (seenNames.has(normalizedName)) {
-      return false; // Skip duplicate
+      return false;
     }
     seenNames.add(normalizedName);
     return true;
   });
   
-  // Use batch insert for better performance
   for (const customer of uniqueCustomers) {
     try {
       await insertCustomer(customer);
     } catch (error) {
-      // Skip if duplicate still exists (shouldn't happen after deduplication, but safe guard)
       if (error instanceof Error && error.message.includes('already exists')) {
         continue;
       }

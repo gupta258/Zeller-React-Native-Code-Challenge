@@ -54,7 +54,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await initDatabase();
         const customers = await getAllCustomers();
         
-        // Auto-sync from API if database is empty
         if (customers.length === 0) {
           try {
             const apiCustomers = await fetchZellerCustomers();

@@ -13,7 +13,6 @@ import { useFilteredUsers } from '../hooks/useFilteredUsers';
 import { showConfirmDialog } from '../components/ConfirmDialog';
 import { TABS } from '../constants';
 
-// Enable LayoutAnimation on Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
@@ -27,12 +26,10 @@ const UserListScreen: React.FC = () => {
   const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
   const pagerRef = useRef<PagerView>(null);
 
-  // Pre-compute filtered users for each role at the top level
   const allUsers = useFilteredUsers({ users, searchQuery, role: 'All' });
   const adminUsers = useFilteredUsers({ users, searchQuery, role: 'Admin' });
   const managerUsers = useFilteredUsers({ users, searchQuery, role: 'Manager' });
 
-  // Animate list changes (excluding delete animations which are handled in UserItem)
   React.useEffect(() => {
     if (deletingUserId === null) {
       LayoutAnimation.configureNext({
@@ -68,21 +65,17 @@ const UserListScreen: React.FC = () => {
         cancelText: 'Cancel',
         destructive: true,
         onConfirm: async () => {
-          // Start delete animation
           setDeletingUserId(user.id);
-          
-          // Wait for animation to complete, then delete
           setTimeout(async () => {
             await deleteUser(user);
             setDeletingUserId(null);
-          }, 300); // Match animation duration
+          }, 300);
         },
       });
     },
     [deleteUser]
   );
 
-  // Memoize renderItem to prevent unnecessary re-renders
   const renderItem = useCallback(
     ({ item, index }: { item: ZellerCustomer; index: number }) => (
       <UserItem
@@ -96,10 +89,8 @@ const UserListScreen: React.FC = () => {
     [navigateToEdit, handleDelete, deletingUserId]
   );
 
-  // Memoize keyExtractor
   const keyExtractor = useCallback((item: ZellerCustomer) => item.id, []);
 
-  // Memoize ListEmptyComponent
   const renderEmptyComponent = useCallback(
     () => <EmptyState title="No users found" message="Try pulling down to refresh" />,
     []
@@ -107,7 +98,6 @@ const UserListScreen: React.FC = () => {
 
   const renderUserList = useCallback(
     (role: UserRole) => {
-      // Use pre-computed filtered lists (no hooks inside this function)
       const listUsers = role === 'All' ? allUsers : role === 'Admin' ? adminUsers : managerUsers;
 
       if (listUsers.length === 0) {
@@ -141,7 +131,7 @@ const UserListScreen: React.FC = () => {
           initialNumToRender={10}
           showsVerticalScrollIndicator={true}
           getItemLayout={(data, index) => ({
-            length: 80, // Approximate item height
+            length: 80,
             offset: 80 * index,
             index,
           })}

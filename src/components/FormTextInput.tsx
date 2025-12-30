@@ -10,7 +10,7 @@ interface FormTextInputProps<T extends FieldValues> extends Omit<TextInputProps,
   showCharCount?: boolean;
   maxLength?: number;
   label?: string;
-  showError?: boolean; // Control whether to show error message inside component
+  showError?: boolean;
 }
 
 export const FormTextInput = <T extends FieldValues>({
@@ -20,7 +20,7 @@ export const FormTextInput = <T extends FieldValues>({
   showCharCount = false,
   maxLength,
   label,
-  showError = true, // Default to true for backward compatibility
+  showError = true,
   ...textInputProps
 }: FormTextInputProps<T>) => {
   const { control } = useFormContext<T>();

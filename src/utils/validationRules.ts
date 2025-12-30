@@ -1,11 +1,6 @@
 import { RegisterOptions, FieldValues } from 'react-hook-form';
 import { VALIDATION } from '../constants';
 
-/**
- * Common validation rules for react-hook-form
- * These are generic and can be used with any form type
- */
-
 export const nameValidationRules = <T extends FieldValues>(): RegisterOptions<T> => ({
   required: 'Name is required',
   maxLength: {
@@ -20,7 +15,6 @@ export const nameValidationRules = <T extends FieldValues>(): RegisterOptions<T>
 
 export const emailValidationRules = <T extends FieldValues>(): RegisterOptions<T> => ({
   validate: (value: string) => {
-    // Only validate if email is provided (it's optional)
     if (value && value.trim().length > 0) {
       return VALIDATION.EMAIL_PATTERN.test(value) || 'Please enter a valid email address';
     }
@@ -28,16 +22,10 @@ export const emailValidationRules = <T extends FieldValues>(): RegisterOptions<T
   },
 });
 
-/**
- * Helper function to create required field validation
- */
 export const createRequiredRule = <T extends FieldValues>(fieldName: string): RegisterOptions<T> => ({
   required: `${fieldName} is required`,
 });
 
-/**
- * Helper function to create max length validation
- */
 export const createMaxLengthRule = <T extends FieldValues>(
   maxLength: number,
   fieldName: string
@@ -48,9 +36,6 @@ export const createMaxLengthRule = <T extends FieldValues>(
   },
 });
 
-/**
- * Helper function to create pattern validation
- */
 export const createPatternRule = <T extends FieldValues>(
   pattern: RegExp,
   message: string

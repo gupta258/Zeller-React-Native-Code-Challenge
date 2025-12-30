@@ -14,14 +14,13 @@ export type RootStackParamList = {
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-// Custom transition configuration for smoother Android animations
 const transitionConfig = {
   animation: 'timing' as const,
   config: {
     duration: 300,
     easing: Platform.select({
       ios: Easing.out(Easing.cubic),
-      android: Easing.bezier(0.4, 0.0, 0.2, 1), // Material Design easing curve
+      android: Easing.bezier(0.4, 0.0, 0.2, 1),
     }),
   },
 };
@@ -52,19 +51,16 @@ export const AppNavigator: React.FC = () => {
           fontWeight: '500',
         },
         headerShadowVisible: false,
-        // Smooth transitions for Android - using horizontal slide for iOS-like feel
         cardStyleInterpolator: Platform.select({
           ios: CardStyleInterpolators.forHorizontalIOS,
-          android: CardStyleInterpolators.forHorizontalIOS, // Use iOS-style horizontal slide for smoother Android transitions
+          android: CardStyleInterpolators.forHorizontalIOS,
         }),
         transitionSpec: {
           open: transitionConfig,
           close: transitionConfig,
         },
-        // Enable gesture-based navigation
         gestureEnabled: true,
         gestureDirection: 'horizontal',
-        // Animation timing
         animationEnabled: true,
       }}
     >
